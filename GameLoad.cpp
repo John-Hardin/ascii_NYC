@@ -16,7 +16,7 @@ using namespace std;
 
 
 void GameLoad::playerStartPosition(bool &checkIfLoaded) {
-	if (!isLoaded) {
+	if (!this->isLoaded) {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (mapArr[i][j] == '^') {
@@ -149,8 +149,6 @@ void GameLoad::enemyMovement() {
 
 
 		enemyDirection = true;
-		//cout << "direction after else statment: " << direction << endl;
-		//cout << "lastDirection after else statment: " << lastDirection << endl;
 
 	}
 
@@ -291,16 +289,7 @@ bool GameLoad::interaction() {
 			cout << "odd roll, you were mugged by terry, but you survived" << endl;
 		}
 	}
-
-	//if overlap, allow fight, random generate win/loss, print result to screen, 
-
-	//if win fight, do something
-	//if notWinFight, set gameOver to true
-
 	return gameOver;
-
-
-
 }
 
 void GameLoad::echo(int  statement)

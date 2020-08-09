@@ -7,10 +7,10 @@
 
 
 
-void Level::loadData(GameLoad &game) {
+void Level::loadData(GameLoad const *game) {
 	//char buffer[20];
 	std::ifstream file("savedgame.dat", std::ios::in | std::ios::binary);
-	file.read((char*) &game.player, sizeof(game.player));
+	file.read((char*) &game->player, sizeof(game->player));
 	printf("\tfile.read now\n");
 	if (!file) {
 		printf("file.gcount() result is: %d ", file.gcount());
@@ -19,7 +19,7 @@ void Level::loadData(GameLoad &game) {
 	}
 }
 
-void Level::askLoad(GameLoad &game) {
+void Level::askLoad(GameLoad &game, bool &checkIfLoaded) {
 
 	printf("Load last saved game?\n");
 	//Sleep(3000);
@@ -27,16 +27,17 @@ void Level::askLoad(GameLoad &game) {
 	string input;
 	std::cin >> input;
 	if (input == "Yes" || input == "yes" || input == "y") {
-		loadData(game);
+		loadData(&game);
 		printf("\tGame Loading...");
 		//Sleep(2000);
-		isLoaded = true;
+		checkIfLoaded = true;
+		
 
 	}
 	else {
 		printf("\tDid not load game.\n");
 		//Sleep(2000);
-		isLoaded = false;
+		checkIfLoaded = false;
 	}
 
 }

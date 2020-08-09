@@ -11,8 +11,8 @@ public:
 
 	void saveData(GameLoad game);
 	void askSave(GameLoad game);
-	void loadData(GameLoad &game);
-	void askLoad(GameLoad &game);
+	void loadData(GameLoad const *game);
+	void askLoad(GameLoad &game, bool& checkIfLoaded);
 private:
 
 

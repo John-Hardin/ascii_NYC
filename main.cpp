@@ -9,9 +9,9 @@ int main() {
 
 	GameLoad game;
 	Level level;
-	level.askLoad(game);
+	level.askLoad(game, game.isLoaded);
 	game.loadMap();
-	game.playerStartPosition(game.isLoaded);
+	game.playerStartPosition( game.isLoaded);
 	
 	while (game.gameOver == false){
 		game.draw();
@@ -24,7 +24,7 @@ int main() {
 	game.echo( game.player.x);
 	level.askSave(game);
 
-	Sleep(4000);
+	//Sleep(4000);
 	return 0;
 }
 
