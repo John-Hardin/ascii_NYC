@@ -1,17 +1,11 @@
 #pragma once
-
-
-
 #include <vector>
 #include <string>
 using namespace std;
 
-
-
 class GameLoad
 {
 public:
-
 	const int width = 79;
 	const int height = 24;
 	vector <string> mapArr;
@@ -21,24 +15,16 @@ public:
 	int lastDirection = 0;
 	bool gameOver = false;
 	bool isLoaded;
-
-
 	void loadMap();
 	void playerStartPosition(bool &checkIfLoaded);
 	void enemyMovement();
 	void draw();
 	vector <string> logicMovement();
-	bool interaction();
+	int interaction();
 	void echo(int statement);
-
+	void printInteraction(int resultOfRoll);
 	struct player {
 		char x, y, px, py;
-
 	} player;
-
-
 private:
-	
-
 };
-
