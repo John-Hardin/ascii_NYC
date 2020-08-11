@@ -9,12 +9,6 @@
 #include "Game.h"
 #include "Level.h"
 
-
-
-
-
-
-
  void Game::enemyMovement() {
 	std::default_random_engine random((unsigned int)time(NULL));
 	std::uniform_int_distribution<int> eMoveDirection(1, 4);
@@ -64,7 +58,6 @@
 		enemyDirection = true;
 	}
 }
-
  std::vector<std::string> Game::logicMovement() {
 	switch (_getch()) {
 	case 'w':
@@ -250,6 +243,4 @@
 		}
 		Sleep(3200);
 	}
-
-
 }
