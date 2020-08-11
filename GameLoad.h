@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
+
 using namespace std;
+//void printAnim(std::string fileName);
 
 class GameLoad
 {
@@ -14,15 +16,13 @@ public:
 	bool enemyDirection = true;
 	int lastDirection = 0;
 	bool gameOver = false;
-	bool isLoaded;
 	void loadMap();
-	void playerStartPosition(bool &checkIfLoaded);
 	void enemyMovement();
 	void draw();
 	vector <string> logicMovement();
-	int interaction();
-	void echo(int statement);
-	void printInteraction(int resultOfRoll);
+	void interaction();
+	//void echo(int statement);
+	//void printInteraction(int resultOfRoll);
 	struct player {
 		char x, y, px, py;
 	} player;

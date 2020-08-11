@@ -24,6 +24,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="printAnimations.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="printAnimations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLoad.h">
@@ -35,5 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="NewYorkCity.txt" />
+    <Text Include="mugged_but_survived.txt" />
+    <Text Include="mugged_and_died.txt" />
   </ItemGroup>
 </Project>

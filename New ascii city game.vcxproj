@@ -101,12 +101,16 @@
     <ClCompile Include="GameLoad.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="printAnimations.cpp" />
+    <ClCompile Include="printAnimations.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLoad.h" />
     <ClInclude Include="Level.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="mugged_and_died.txt" />
+    <Text Include="mugged_but_survived.txt" />
     <Text Include="NewYorkCity.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
