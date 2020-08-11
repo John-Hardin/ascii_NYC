@@ -98,14 +98,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameLoad.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="printAnimations.cpp" />
-    <ClCompile Include="printAnimations.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameLoad.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Level.h" />
   </ItemGroup>
   <ItemGroup>

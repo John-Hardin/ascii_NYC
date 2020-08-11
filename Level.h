@@ -1,15 +1,18 @@
 #pragma once
-#include "GameLoad.h"
-class Level : GameLoad
+#include "Game.h"
+class Level : public Game
 {
 public:
-	bool checkIfLoaded;
-	void saveData(GameLoad game);
-	void askSave(GameLoad game);
-	void loadData(GameLoad *game);
-	void askLoad();
-	void initPlayer(GameLoad*);
-	void initEnemies(GameLoad*);
+
+	 bool checkIfLoaded;
+	 void saveData();
+	 void askSave();
+	 void loadData();
+	 void askLoad();
+	 void initPlayer();
+	 void initEnemies();
+	 void loadMap();
+	 void draw();
 private:
 };
 
