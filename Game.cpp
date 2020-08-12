@@ -134,6 +134,7 @@
 		else {
 			
 			printAnim("mugged_but_survived.txt");
+			//TEST BRANCH remove this comment
 			//TODO possibly move these print functions out of interaction function, and use a return variable to call print function
 		}
 	}
