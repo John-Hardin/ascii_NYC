@@ -73,15 +73,15 @@
 	}
 }
  void Level::setEnemyToPreviousLocation() {
-	 if (player.x == bob.x && player.y == bob.y) {
-		 ////bob.x = bob.pX;
-		 ////bob.y = bob.pY;
-		 //TODO -- change robbers to chars instead of integers
-		 mapArr[player.y][player.x] = '@';
-		 mapArr[bob.pY][bob.pX] = '%';
-		 printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
-		 printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
-	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
+// 	 if (player.x == bob.x && player.y == bob.y) {
+// 		 ////bob.x = bob.pX;
+// 		 ////bob.y = bob.pY;
+// 		 //TODO -- change robbers to chars instead of integers
+// 		 mapArr[player.y][player.x] = '@';
+// 		 mapArr[bob.pY][bob.pX] = '%';
+// 		 printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
+// 		 printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
+// 	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
 	 
 	  //if (player.x == karen.x && player.y == karen.y) {
 		// //karen.x = karen.pX;
@@ -95,7 +95,7 @@
 		// mapArr[player.y][player.x] = '@';
 		// mapArr[terry.pY][terry.pX] = '%';
 	 //}
- }
+ 
  void Level::saveData() {
 	std::ofstream file("savedgame.dat", std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.fail()) {
