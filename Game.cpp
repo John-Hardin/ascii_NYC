@@ -9,37 +9,29 @@
 #include "Game.h"
 #include "Level.h"
 
-
-
-
-
-
-
  void Game::enemyMovement() {
-	std::default_random_engine random((unsigned int)time(NULL));
-	std::uniform_int_distribution<int> eMoveDirection(1, 4);
-	int direction = eMoveDirection(random);
+	 std::default_random_engine random((unsigned int)time(NULL));
+	 std::uniform_int_distribution<int> eMoveDirection(1, 4);
+	 int direction = eMoveDirection(random);
 	if (enemyDirection) {
 
 		bob.pX = bob.x;
 		bob.pY = bob.y;
-		bob.y = bob.y + direction;
+		bob.y = bob.y + lastDirection;
 		mapArr[bob.y][bob.x] = '%';
 		mapArr[bob.pY][bob.pX] = '.';
 
 		karen.pX = karen.x;
 		karen.pY = karen.y;
-		karen.x = karen.x + direction;
+		karen.x = karen.x + lastDirection;
 		mapArr[karen.y][karen.x] = '%';
 		mapArr[karen.pY][karen.pX] = '.';
 
 		terry.pX = terry.x;
 		terry.pY = terry.y;
-		terry.x = terry.x - direction;
+		terry.x = terry.x - lastDirection;
 		mapArr[terry.y][terry.x] = '%';
 		mapArr[terry.pY][terry.pX] = '.';
-
-		lastDirection = direction;
 		enemyDirection = false;
 	}
 	else {
@@ -48,6 +40,7 @@
 		bob.y = bob.y - lastDirection;
 		mapArr[bob.y][bob.x] = '%';
 		mapArr[bob.pY][bob.pX] = '.';
+
 
 		karen.pX = karen.x;
 		karen.pY = karen.y;
@@ -60,11 +53,10 @@
 		terry.x = terry.x + lastDirection;
 		mapArr[terry.y][terry.x] = '%';
 		mapArr[terry.pY][terry.pX] = '.';
-
 		enemyDirection = true;
+		lastDirection = direction;
 	}
 }
-
  std::vector<std::string> Game::logicMovement() {
 	switch (_getch()) {
 	case 'w':
@@ -131,51 +123,45 @@
 	std::default_random_engine randomGenerator((unsigned int)time(NULL));
 	std::uniform_int_distribution<int> diceRoll(1, 4);
 	if (player.y == bob.y && player.x == bob.x) {
-		mapArr[player.y][player.x] = '@';
-		mapArr[bob.pY][bob.pX] = '%';
+		//mapArr[player.y][player.x] = '@';
+		//mapArr[bob.pY][bob.pX] = '%';
 		if (diceRoll(randomGenerator) % 2 == 0) {
-			gameOver = true;
+			//TODO uncomment gameOver, all 3
+			//gameOver = true;
 			printAnim("mugged_and_died.txt");
-			//return 1;
-			//TODO create restart function
+			//TODO create restart function for when you die
 		}
 		else {
+			
 			printAnim("mugged_but_survived.txt");
-			//return 2;
+			//TODO possibly move these print functions out of interaction function, and use a return variable to call print function
 		}
 	}
 	if (player.y == karen.y && player.x == karen.x) {
-		mapArr[player.y][player.x] = '@';
-		mapArr[karen.pY][karen.pX] = '%';
+		//mapArr[player.y][player.x] = '@';
+		//mapArr[karen.pY][karen.pX] = '%';
 		if (diceRoll(randomGenerator) % 2 == 0) {
-			gameOver = true;
+			//gameOver = true;
 			printAnim("mugged_and_died.txt");
-			//return 3;
 		}
 		else {
+
 			printAnim("mugged_but_survived.txt");
-			//return 4;
 		}
 	}
 	if (player.y == terry.y && player.x == terry.x) {
-		mapArr[player.y][player.x] = '@';
-		mapArr[terry.pY][terry.pX] = '%';
+		//mapArr[player.y][player.x] = '@';
+		//mapArr[terry.pY][terry.pX] = '%';
 		if (diceRoll(randomGenerator) % 2 == 0) {
-			gameOver = true;
+			//gameOver = true;
 			printAnim("mugged_and_died.txt");
-			//return 5;
 		}
 		else {
+
 			printAnim("mugged_but_survived.txt");
-			//return 6;
 		}
 	}
-	//return 0;
 }
-//void Game::echo(int  statement)
-//{
-//	std::cout << statement << std::endl;
-//}
  void Game::printAnim(std::string fileName) {
 	int width = 24;
 	int height = 79;
@@ -198,22 +184,22 @@
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(700);
+		Sleep(200);
 		for (int i = width; i < width * 2; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(2200);
+		Sleep(200);
 		for (int i = width * 2; i < width * 3; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(1800);
+		Sleep(200);
 		for (int i = width * 3; i < width * 4; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(4200);
+		Sleep(200);
 	}
 	else if (fileName == "mugged_and_died.txt") {
 		std::vector<std::string> animArr;
@@ -233,23 +219,21 @@
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(700);
+		Sleep(200);
 		for (int i = width; i < width * 2; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(1600);
+		Sleep(200);
 		for (int i = width * 2; i < width * 3; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(1400);
+		Sleep(200);
 		for (int i = width * 3; i < width * 4; i++) {
 			std::cout << animArr[i] << std::endl;
 			//Sleep(100);
 		}
-		Sleep(3200);
+		Sleep(200);
 	}
-
-
 }

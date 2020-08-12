@@ -4,7 +4,7 @@ class Level : public Game
 {
 public:
 
-	 bool checkIfLoaded;
+	 bool checkIfLoaded = false;
 	 void saveData();
 	 void askSave();
 	 void loadData();
@@ -13,6 +13,7 @@ public:
 	 void initEnemies();
 	 void loadMap();
 	 void draw();
-private:
+	 void setEnemyToPreviousLocation();
+
 };
 

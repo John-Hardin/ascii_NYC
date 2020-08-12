@@ -5,13 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <Windows.h>
-
-//Level::Level() {
-//	
-//}
-
-
-void Level::loadMap() {
+ void Level::loadMap() {
 	
 	std::ifstream inputMapFile;
 	inputMapFile.open("NewYorkCity.txt");
@@ -25,8 +19,6 @@ void Level::loadMap() {
 	}
 	inputMapFile.close();
 }
-
-
  void Level::loadData() {
 	if (checkIfLoaded){
 		std::ifstream file("savedgame.dat", std::ios::in | std::ios::binary);
@@ -59,18 +51,51 @@ void Level::loadMap() {
 }
  void Level::draw() {
 	if ((player.x == bob.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x)) {
-		mapArr[player.y][player.x] = '@';
+//TODO add function here to set enemy location to previous location so % gets printed in previous location instead of location
+		// because it prints over the player's @ character
+		printf("hello from inside draw(), line before setEnemiesToPreviousLocation\n");
+		setEnemyToPreviousLocation();
+		printf("hello from inside draw(), line AFTER setEnemiesToPreviousLocation\n");
 		for (int i = 0; i < height; i++) {
 			std::cout << mapArr[i] << std::endl;
 		}
 	}
 	else {
+		//TODO -- I think this else statement is broken, it prints percent character instead of period character after player
+		// enemy overlapping, THE IF STATEMENT is close though, might be correct...
+
+		//mapArr[player.y][player.x] = '@';
 		for (int i = 0; i < height; i++) {
 			std::cout << mapArr[i] << std::endl;
 		}
-	}
+		printf("hello from else statement, inside draw() if((player.x == bob.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x))");
 
+	}
 }
+ void Level::setEnemyToPreviousLocation() {
+	 if (player.x == bob.x && player.y == bob.y) {
+		 ////bob.x = bob.pX;
+		 ////bob.y = bob.pY;
+		 //TODO -- change robbers to chars instead of integers
+		 mapArr[player.y][player.x] = '@';
+		 mapArr[bob.pY][bob.pX] = '%';
+		 printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
+		 printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
+	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
+	 
+	  //if (player.x == karen.x && player.y == karen.y) {
+		// //karen.x = karen.pX;
+		// //karen.y = karen.pY;
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[karen.pY][karen.pX] = '%';
+	 //}
+	 //if (player.x == terry.x && player.y == terry.y) {
+		// //terry.x = terry.pX;
+		// //terry.y = terry.pY;
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[terry.pY][terry.pX] = '%';
+	 //}
+ }
  void Level::saveData() {
 	std::ofstream file("savedgame.dat", std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.fail()) {
@@ -84,8 +109,7 @@ void Level::loadMap() {
 		file.close();
 	}
 }
- void Level::askSave()
-{
+ void Level::askSave() {
 	printf("\tWould you like to SAVE GAME?  Or hit enter to quit game.\n");
 	std::string input;
 	std::cin >> input;
@@ -187,6 +211,5 @@ void Level::loadMap() {
 			}
 		}
 	}
-
 }
 
