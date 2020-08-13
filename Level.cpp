@@ -1,27 +1,32 @@
-#include "Game.h"
-#include "Level.h"
-
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <Windows.h>
- void Level::loadMap() {
-	
+#include <vector>
+#include <string>
+
+#include "Game.h"
+#include "Level.h"
+
+
+
+ void Level::loadMap(std::string fileName, static const int &mapHeight) {
+	//strange error in function declaration, possibly due to "#include <Windows.h>"
 	std::ifstream inputMapFile;
-	inputMapFile.open("NewYorkCity.txt");
+	inputMapFile.open(fileName.c_str());
 	if (inputMapFile.fail()) {
-		perror("NewYorkCity.txt");
+		perror(fileName.c_str());
 	}
 	std::string input;
-	for (int i = 0; i < Game::height; i++) {
+	for (int i = 0; i < mapHeight; i++) {
 		std::getline(inputMapFile, input);
-		Game::mapArr.push_back(input);
+		mapArr.push_back(input);
 	}
 	inputMapFile.close();
 }
- void Level::loadData() {
+ void Level::loadData(std::string fileName) {
 	if (checkIfLoaded){
-		std::ifstream file("savedgame.dat", std::ios::in | std::ios::binary);
+		std::ifstream file(fileName, std::ios::in | std::ios::binary);
 		file.read((char*)&player, sizeof(player));
 		printf("\tfile.read now\n");
 		if (!file) {
@@ -50,7 +55,7 @@
 	}
 }
  void Level::draw() {
-	if ((player.x == bob.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x)) {
+	if ((player.x == player.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x)) {
 //TODO add function here to set enemy location to previous location so % gets printed in previous location instead of location
 		// because it prints over the player's @ character
 		printf("hello from inside draw(), line before setEnemiesToPreviousLocation\n");
@@ -64,23 +69,30 @@
 		//TODO -- I think this else statement is broken, it prints percent character instead of period character after player
 		// enemy overlapping, THE IF STATEMENT is close though, might be correct...
 
-		//mapArr[player.y][player.x] = '@';
+		setEnemyToPreviousLocation();
 		for (int i = 0; i < height; i++) {
 			std::cout << mapArr[i] << std::endl;
+
 		}
 		printf("hello from else statement, inside draw() if((player.x == bob.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x))");
 
 	}
 }
  void Level::setEnemyToPreviousLocation() {
-	 if (player.x == bob.x && player.y == bob.y) {
-		 ////bob.x = bob.pX;
-		 ////bob.y = bob.pY;
-		 //TODO -- change robbers to chars instead of integers
-		 mapArr[player.y][player.x] = '@';
-		 mapArr[bob.pY][bob.pX] = '%';
-		 printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
-		 printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
+	 //if (player.x == bob.x && player.y == bob.y) {
+		// ////bob.x = bob.pX;
+		// ////bob.y = bob.pY;
+
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[bob.pY][bob.pX] = '%';
+		// //mapArr[bob.y][bob.x] = '.'; try moving this above mapArr[player.y][player.x] = '@';
+		// printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
+		// printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
+	 //}
+	 //else {
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[bob.pY][bob.pX] = '.';
+
 	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
 	 
 	  //if (player.x == karen.x && player.y == karen.y) {
@@ -95,7 +107,7 @@
 		// mapArr[player.y][player.x] = '@';
 		// mapArr[terry.pY][terry.pX] = '%';
 	 //}
- }
+ 
  void Level::saveData() {
 	std::ofstream file("savedgame.dat", std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.fail()) {
@@ -110,7 +122,7 @@
 	}
 }
  void Level::askSave() {
-	printf("\tWould you like to SAVE GAME?  Or hit enter to quit game.\n");
+	printf("\tWould you like to SAVE GAME?  Or hit enter to quit \n");
 	std::string input;
 	std::cin >> input;
 	if (input == "Yes" || input == "yes" || input == "y") {
@@ -119,13 +131,13 @@
 		return;
 	}
 	else {
-		printf("\tSure?  (Yes, yes, y) will save.  Or hit enter to quit game.\n");
+		printf("\tSure?  (Yes, yes, y) will save.  Or hit enter to quit \n");
 		std::cin >> input;
 		if (input == "Yes" || input == "yes" || input == "y") {
 			printf("\tsaving...");
 			return;
 		}
-		printf("\tDid not save game...");
+		printf("\tDid not save ..");
 		return;
 	}
 }
@@ -212,4 +224,5 @@
 		}
 	}
 }
+
 

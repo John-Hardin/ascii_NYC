@@ -9,13 +9,32 @@
 #include "Game.h"
 #include "Level.h"
 
+Game::Game() {
+	level.askLoad();
+	level.loadMap("NewYorkCity.txt", 24);
+	level.loadData("savedgame.dat");
+	level.initEnemies();
+	level.initPlayer();
+	
+}
+void Game::playGame(bool over) {
+	while (over == false) {
+		level.draw();
+		logicMovement();
+		enemyMovement();
+		interaction();
+	}
+	level.askSave();
+
+}
+
  void Game::enemyMovement() {
 	 std::default_random_engine random((unsigned int)time(NULL));
 	 std::uniform_int_distribution<int> eMoveDirection(1, 4);
 	 int direction = eMoveDirection(random);
 	if (enemyDirection) {
 
-		bob.pX = bob.x;
+		level.bob.pX = level.bob.x;
 		bob.pY = bob.y;
 		bob.y = bob.y + lastDirection;
 		mapArr[bob.y][bob.x] = '%';
@@ -134,7 +153,7 @@
 		else {
 			
 			printAnim("mugged_but_survived.txt");
-			//TEST BRANCH remove this comment
+			
 			//TODO possibly move these print functions out of interaction function, and use a return variable to call print function
 		}
 	}
