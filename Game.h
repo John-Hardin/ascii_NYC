@@ -6,7 +6,8 @@ class Game
 {
 	
 public:
-	void playGame(bool over);
+	Game();
+	void playGame(bool &over);
 	Level level;
 
 	bool gameOver = false;

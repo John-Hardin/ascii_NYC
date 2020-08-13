@@ -8,9 +8,12 @@
 #include "Game.h"
 #include "Level.h"
 
+Level::Level() {
 
 
- void Level::loadMap(std::string fileName, static const int &mapHeight) {
+}
+
+ void Level::loadMap(std::string fileName, int mapHeight) {
 	//strange error in function declaration, possibly due to "#include <Windows.h>"
 	std::ifstream inputMapFile;
 	inputMapFile.open(fileName.c_str());
@@ -43,7 +46,7 @@
 }
  void Level::askLoad() {
 	printf("Load last saved game?\n");
-	//Sleep(3000);
+
 	printf("\t(Yes, yes, or y) to load, hit ENTER key...\n");
 	std::string input;
 	std::cin >> input;
@@ -54,60 +57,18 @@
 		checkIfLoaded = false;
 	}
 }
- void Level::draw() {
+ void Level::draw(int mapHeight) {
 	if ((player.x == player.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x)) {
-//TODO add function here to set enemy location to previous location so % gets printed in previous location instead of location
-		// because it prints over the player's @ character
-		printf("hello from inside draw(), line before setEnemiesToPreviousLocation\n");
-		setEnemyToPreviousLocation();
-		printf("hello from inside draw(), line AFTER setEnemiesToPreviousLocation\n");
-		for (int i = 0; i < height; i++) {
+		for (int i = 0; i < mapHeight; i++) {
 			std::cout << mapArr[i] << std::endl;
 		}
 	}
 	else {
-		//TODO -- I think this else statement is broken, it prints percent character instead of period character after player
-		// enemy overlapping, THE IF STATEMENT is close though, might be correct...
-
-		setEnemyToPreviousLocation();
-		for (int i = 0; i < height; i++) {
+		for (int i = 0; i < mapHeight; i++) {
 			std::cout << mapArr[i] << std::endl;
-
 		}
-		printf("hello from else statement, inside draw() if((player.x == bob.x && player.y == bob.y) || (player.y == karen.y && player.x == karen.x) || (player.y == terry.y && player.x == terry.x))");
-
 	}
 }
- void Level::setEnemyToPreviousLocation() {
-	 //if (player.x == bob.x && player.y == bob.y) {
-		// ////bob.x = bob.pX;
-		// ////bob.y = bob.pY;
-
-		// mapArr[player.y][player.x] = '@';
-		// mapArr[bob.pY][bob.pX] = '%';
-		// //mapArr[bob.y][bob.x] = '.'; try moving this above mapArr[player.y][player.x] = '@';
-		// printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
-		// printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
-	 //}
-	 //else {
-		// mapArr[player.y][player.x] = '@';
-		// mapArr[bob.pY][bob.pX] = '.';
-
-	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
-	 
-	  //if (player.x == karen.x && player.y == karen.y) {
-		// //karen.x = karen.pX;
-		// //karen.y = karen.pY;
-		// mapArr[player.y][player.x] = '@';
-		// mapArr[karen.pY][karen.pX] = '%';
-	 //}
-	 //if (player.x == terry.x && player.y == terry.y) {
-		// //terry.x = terry.pX;
-		// //terry.y = terry.pY;
-		// mapArr[player.y][player.x] = '@';
-		// mapArr[terry.pY][terry.pX] = '%';
-	 //}
- 
  void Level::saveData() {
 	std::ofstream file("savedgame.dat", std::ios::out | std::ios::binary | std::ios::trunc);
 	if (file.fail()) {
@@ -141,10 +102,10 @@
 		return;
 	}
 }
- void Level::initPlayer() {
+ void Level::initPlayer(int mapHeight, int mapWidth) {
 	if (!checkIfLoaded) {
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = 0; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
 				if (mapArr[i][j] == '^') {
 					player.x = j;
 					player.y = i;
@@ -157,8 +118,8 @@
 		}
 	}
 	else {
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = 0; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
 				if (mapArr[i][j] == '^') {
 					mapArr[i][j] = '.';
 
@@ -169,56 +130,56 @@
 		}
 	}
 }
- void Level::initEnemies() {
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+ void Level::initEnemies(int mapHeight, int mapWidth) {
+	for (int i = 0; i < mapHeight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
 			if (mapArr[i][j] == '%' || mapArr[i][j] == '@') {
 				bob.x = j;
 				bob.y = i;
 				bob.pX = j;
 				bob.pY = i;
-				i = height;
-				j = width;
+				i = mapHeight;
+				j = mapWidth;
 			}
 		}
 	}
-	for (int i = bob.y + 1; i < height; i++) {
-		for (int j = 0; j < width; j++) {
+	for (int i = bob.y + 1; i < mapHeight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
 			if (mapArr[i][j] == '%' || mapArr[i][j] == '@') {
 				karen.x = j;
 				karen.y = i;
 				karen.pX = j;
 				karen.pY = i;
-				i = height;
-				j = width;
+				i = mapHeight;
+				j = mapWidth;
 
 			}
 		}
 	}
 	if (checkIfLoaded) {
-		for (int i = karen.y + 1; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = karen.y + 1; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
 				if (mapArr[i][j] == '%' || mapArr[i][j] == '@') {
 					terry.x = j;
 					terry.y = i;
 					terry.pX = j;
 					terry.pY = i;
-					i = height;
-					j = width;
+					i = mapHeight;
+					j = mapWidth;
 				}
 			}
 		}
 	}
 	else {
-		for (int i = karen.y + 1; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = karen.y + 1; i < mapHeight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
 				if (mapArr[i][j] == '%') {
 					terry.x = j;
 					terry.y = i;
 					terry.pX = j;
 					terry.pY = i;
-					i = height;
-					j = width;
+					i = mapHeight;
+					j = mapWidth;
 				}
 			}
 		}
