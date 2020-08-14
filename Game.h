@@ -2,24 +2,23 @@
 #include <vector>
 #include <string>
 #include "Level.h"
+#include "Player.h"
 class Game
 {
-	
 public:
-	Game();
-	void playGame(bool &over);
-	Level level;
+	//constructor
+	Game(std::string fileName, int mapH, int mapW);
 
+	Level level;
+	Player player;
+
+
+	void playGame();
 	bool gameOver = false;
 
 
-	bool enemyDirection = true;
-	int lastDirection = 1;
 
-
-	void printAnim(std::string fileName);
-	void enemyMovement();
-	std::vector <std::string> logicMovement();
-	void interaction();
+	//void printAnim(std::string fileName);
+private:
 };
 

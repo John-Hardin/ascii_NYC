@@ -1,24 +1,12 @@
 #include <Windows.h>
 #include <iostream>
-//#include "Level.h"
+#include <string>
+#include "Level.h"
 #include "Game.h"
-int main() {
-	
-	//Level();
-	Game game = Game();
-	//level.askLoad();
-	//level.loadMap();
-	//level.loadData();
-	//level.initEnemies();
-	//level.initPlayer();
 
-	game.playGame(game.gameOver);
-	//while (level.gameOver == false){
-	//	level.draw();
-	//	level.logicMovement();
-	//	level.enemyMovement();
-	//	level.interaction();
-	//}
-	/*level.askSave();*/
+int main() {
+
+	Game game = Game("NewYorkCity.txt", 24, 79);
+	game.playGame();
 	return 0;
 }
