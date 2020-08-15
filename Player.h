@@ -10,6 +10,7 @@ public:
 	void setPosition(int x, int y);
 
 
+
 	//getters
 	void getPosition(int &x, int &y);
 

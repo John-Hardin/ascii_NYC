@@ -7,7 +7,7 @@ class Game
 {
 public:
 	//constructor
-	Game(std::string fileName, int mapH, int mapW);
+	Game(std::string fileName, int mapH, int mapW, Player& player);
 
 	Level level;
 	Player player;
@@ -15,6 +15,7 @@ public:
 
 	void playGame();
 	bool gameOver = false;
+	void playerMove();
 
 
 

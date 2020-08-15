@@ -5,27 +5,34 @@
 #include <cstdlib>
 #include <conio.h>
 #include <Windows.h>
-#include "Level.h"
+//#include "Level.h"
 #include "Game.h"
-#include "Player.h"
+//#include "Player.h"
 
-
+//Game::Game(std::string fileName, int mapH, int mapW, Player& player)
 //constructor
-Game::Game(std::string fileName, int mapH, int mapW) {
-
-	level.loadMap(fileName, mapH, mapW);
+Game::Game(std::string fileName, int mapH, int mapW, Player& player) {
 	player.init(1, 3, 5, 5, 0);
+	level.loadMap(fileName, mapH, mapW, player);
+
 	//TODO -- Turn these 3 into a map load function
 	//level.load("NewYorkCity.txt", "save.dat", 24, 79);
 }
 void Game::playGame() {
 	bool over = false;
-	while (over != false) {
+	while (over == false) {
 		level.drawLevel(24, 79);
-		//Game::level.drawLevel(24, 79);
+		playerMove();
+
 	}
+
 	//level.save(player);
 
+}
+
+void Game::playerMove() {
+	char input = _getch();
+	level.movePlayer(input, player);
 }
 
 
