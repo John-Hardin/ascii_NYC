@@ -9,6 +9,7 @@ class Level
 {
 
 public:
+	//constructor
 	Level();
 	
 	//getters
@@ -19,19 +20,11 @@ public:
 
 	void loadMap(std::string fileName, int mapH, int mapW, Player& player);
 	void drawLevel(int mapH, int mapW);
-
-
 	void movePlayer(char input, Player& player);
-
-	
-	std::vector <std::string> _levelData;
-	//void load(std::string map, std::string savedFile, int mapHeight, int mapWidth);
-	//void processLevel(std::vector <std::string> _levelData, Player& player);
-
-	//void save(Player &playerSave);
 	void processPlayerMove(Player& player, int targetX, int targetY);
 
 private:
+	std::vector <std::string> _levelData;
 
 };
 
