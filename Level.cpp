@@ -3,10 +3,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Game.h"
+//#include "Game.h"  note-- commented out
 #include "Level.h"
 #include "Player.h"
 #include <conio.h>
+#include "Enemy.h"
+#include <cstdio>
+
 
 Level::Level() {
 
@@ -33,6 +36,20 @@ void Level::loadMap(std::string fileName, int mapH, int mapW, Player& player) {
 			case '@':
 				player.setPosition(c, i);
 				//("p_x= %d, p_y=%d,\n", player._x, player._y);
+				break;
+			case 'C': //Crook
+				_enemies.push_back(Enemy("Crook", tile, 3, 7, 7, 7, 7));
+				_enemies.back().setPosition(c, i);
+				break;
+			case 'R': //Robber
+				_enemies.push_back(Enemy("Robber", tile, 6, 6, 6, 6, 8));
+				_enemies.back().setPosition(c, i);
+
+				break;
+			case 'H'://Hobo
+				_enemies.push_back(Enemy("Hobo", tile, 9, 19, 50, 9, 9));
+				_enemies.back().setPosition(c, i);
+
 				break;
 			}
 		}
@@ -72,6 +89,33 @@ void Level::movePlayer(char input, Player &player) {
 		break;
 	}
 }
+void Level::updateEnemies(Player& player) {
+	char aiMove;
+	int playerX, playerY, enemyX, enemyY;
+	player.getPosition(playerX, playerY);
+
+	for (int c = 0; c < _enemies.size(); c++){
+		aiMove = _enemies[c].getAiMove(playerX, playerY);
+		_enemies[c].getPosition(enemyX, enemyY);
+		switch (aiMove) {
+		case 'w'://up
+			processEnemyMove(player, c, enemyX, enemyY - 1);
+			break;
+		case 's'://down
+			processEnemyMove(player, c, enemyX, enemyY + 1);
+			break;
+		case 'a'://left
+			processEnemyMove(player, c, enemyX - 1, enemyY);
+			break;
+		case 'd'://right
+			processEnemyMove(player, c, enemyX + 1, enemyY);
+			break;
+		default:
+			break;
+		}
+	}
+
+}
 void Level::processPlayerMove(Player &player, int targetX, int targetY) {
 	int playerX;
 	int playerY;
@@ -79,16 +123,82 @@ void Level::processPlayerMove(Player &player, int targetX, int targetY) {
 	//printf("p_x= %d, p_y=%d,\n pX= %d, pY=%d,\n tX=%d, tY=%d\n from before switch ^\n", player._x, player._y, playerX, playerY, targetX, targetY);
 	char movetile = getTile(targetX, targetY);
 	switch (movetile) {
-	case '.':
+	case ' ':
 		player.setPosition(targetX, targetY);
 		//printf("p_x= %d, p_y=%d,\n pX= %d, pY=%d,\n tX=%d, tY=%d\n inside switch ^\n", player._x, player._y,playerX, playerY, targetX, targetY);
-		setTile(playerX, playerY, '.');
+		setTile(playerX, playerY, ' ');
 		setTile(targetX, targetY, '@');
+		break;
+	case 'C':
+	case 'R':
+	case 'H':
+		battleEnemy(player, targetX, targetY);
 		break;
 	default:
 		break;
 	}
 
+}
+void Level::processEnemyMove(Player& player, int enemyIndex, int targetX, int targetY) {
+	int enemyX, enemyY, playerX, playerY;
+	_enemies[enemyIndex].getPosition(enemyX, enemyY);
+	player.getPosition(playerX, playerY);
+	char movetile = getTile(targetX, targetY);
+	switch (movetile) {
+	case ' ':
+		_enemies[enemyIndex].setPosition(targetX, targetY);
+		setTile(enemyX, enemyY, ' ');
+		setTile(targetX, targetY, _enemies[enemyIndex].getTile());
+		break;
+	case '@':
+		battleEnemy(player, enemyX, enemyY);
+	default:
+		break;
+	}
+}
+//TODO-- read breadth-first search algorithm to make a maximum view radius or something so enemies can't see through walls.
+void Level::battleEnemy(Player& player, int targetX, int targetY) {
+	int enemyX, enemyY, attackRoll, attackResult, playerX, playerY;
+	std::string enemyName;
+	player.getPosition(playerX, playerY);
+
+	for (int c = 0; c < _enemies.size(); c++) {
+		_enemies[c].getPosition(enemyX, enemyY);
+		enemyName = _enemies[c].getName();
+		if (targetX == enemyX && targetY == enemyY) {
+
+			//Battle
+			attackRoll = player.attack();
+			printf("Player attacked %s with %d\n", enemyName.c_str(), attackRoll);
+			attackResult = _enemies[c].takeDamage(attackRoll);
+			if (attackResult != 0) {
+				setTile(targetX, targetY, ' ');
+				drawLevel(24, 79);
+				printf("Monster died!\n");
+				_enemies[c] = _enemies.back();//remove enemies from array
+				_enemies.pop_back();          // ..
+				c--;
+				system("PAUSE");
+				player.addExperience(attackResult);
+				
+				return;
+			}
+			//monster turn
+			attackRoll = _enemies[c].attack();
+			attackResult = player.takeDamage(attackRoll);
+			printf("%s attacked player with %d\n", enemyName.c_str(), attackRoll);
+			if (attackResult != 0) {
+				setTile(playerX, playerY, 'X');
+				drawLevel(24, 79);
+				printf("You died!\n");
+				system("PAUSE");
+				exit(0);	
+			}
+			system("PAUSE");
+
+			return;
+		}
+	}
 }
 
 

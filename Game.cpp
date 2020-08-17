@@ -6,9 +6,11 @@
 #include <conio.h>
 #include <Windows.h>
 #include "Game.h"
+#include "Enemy.h"
+
 
 Game::Game(std::string fileName, int mapH, int mapW, Player& player) {
-	player.init(1, 3, 5, 5, 0);
+	player.init(1, 30, 10, 10, 0);
 	level.loadMap(fileName, mapH, mapW, player);
 }
 void Game::playGame() {
@@ -16,9 +18,9 @@ void Game::playGame() {
 	while (over == false) {
 		level.drawLevel(24, 79);
 		playerMove();
+		level.updateEnemies(player);
 	}
-
-	//level.save(player);
+	//TODO -- add save function
 }
 void Game::playerMove() {
 	char input = _getch();

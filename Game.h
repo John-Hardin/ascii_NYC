@@ -3,6 +3,7 @@
 #include <string>
 #include "Level.h"
 #include "Player.h"
+
 class Game
 {
 public:
@@ -11,6 +12,7 @@ public:
 
 	Level level;
 	Player player;
+
 
 
 	void playGame();
