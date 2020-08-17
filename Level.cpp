@@ -115,45 +115,63 @@ void Level::updateEnemies(Player& player) {
 		}
 	}
 
-}
-void Level::processPlayerMove(Player &player, int targetX, int targetY) {
-	int playerX;
-	int playerY;
-	player.getPosition(playerX, playerY);
-	//printf("p_x= %d, p_y=%d,\n pX= %d, pY=%d,\n tX=%d, tY=%d\n from before switch ^\n", player._x, player._y, playerX, playerY, targetX, targetY);
-	char movetile = getTile(targetX, targetY);
-	switch (movetile) {
-	case ' ':
-		player.setPosition(targetX, targetY);
-		//printf("p_x= %d, p_y=%d,\n pX= %d, pY=%d,\n tX=%d, tY=%d\n inside switch ^\n", player._x, player._y,playerX, playerY, targetX, targetY);
-		setTile(playerX, playerY, ' ');
-		setTile(targetX, targetY, '@');
-		break;
-	case 'C':
-	case 'R':
-	case 'H':
-		battleEnemy(player, targetX, targetY);
-		break;
-	default:
-		break;
 	}
-
 }
-void Level::processEnemyMove(Player& player, int enemyIndex, int targetX, int targetY) {
-	int enemyX, enemyY, playerX, playerY;
-	_enemies[enemyIndex].getPosition(enemyX, enemyY);
-	player.getPosition(playerX, playerY);
-	char movetile = getTile(targetX, targetY);
-	switch (movetile) {
-	case ' ':
-		_enemies[enemyIndex].setPosition(targetX, targetY);
-		setTile(enemyX, enemyY, ' ');
-		setTile(targetX, targetY, _enemies[enemyIndex].getTile());
-		break;
-	case '@':
-		battleEnemy(player, enemyX, enemyY);
-	default:
-		break;
+ void Level::setEnemyToPreviousLocation() {
+	 if (player.x == bob.x && player.y == bob.y) {
+		 ////bob.x = bob.pX;
+		 ////bob.y = bob.pY;
+		 //TODO -- change robbers to chars instead of integers
+		 mapArr[player.y][player.x] = '@';
+		 mapArr[bob.pY][bob.pX] = '%';
+		 printf("hello from inside setEnemyToPreviousLocation(), just after mapArr[bob.pY][bob.pX] = '%';\n bob.x is: %d, bob.y is: %d\n", bob.x, bob.y);
+		 printf("bob.pX is: %d, bob.pY is: %d\n", bob.pX, bob.pY);
+	 }//finish -- bob is pretty much set up correctly, propagate changes to karen and terry in this setEnemiesToPreviousLocation function
+	 
+	  //if (player.x == karen.x && player.y == karen.y) {
+		// //karen.x = karen.pX;
+		// //karen.y = karen.pY;
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[karen.pY][karen.pX] = '%';
+	 //}
+	 //if (player.x == terry.x && player.y == terry.y) {
+		// //terry.x = terry.pX;
+		// //terry.y = terry.pY;
+		// mapArr[player.y][player.x] = '@';
+		// mapArr[terry.pY][terry.pX] = '%';
+	 //}
+ }
+ void Level::saveData() {
+	std::ofstream file("savedgame.dat", std::ios::out | std::ios::binary | std::ios::trunc);
+	if (file.fail()) {
+		perror("savedgame.dat");
+		printf("savedgame.dat was not created previous error is my perror...");
+	}
+	else {
+		file.write((char*)&player, sizeof(player));
+		printf(" x is %d, y is %d, px is %d, py is %d ;", player.x, player.y, player.px, player.py);
+		printf("file.write, check for savedgame.dat file");
+		file.close();
+	}
+}
+ void Level::askSave() {
+	printf("\tWould you like to SAVE GAME?  Or hit enter to quit game.\n");
+	std::string input;
+	std::cin >> input;
+	if (input == "Yes" || input == "yes" || input == "y") {
+		saveData();
+		printf("\tsaving...");
+		return;
+	}
+	else {
+		printf("\tSure?  (Yes, yes, y) will save.  Or hit enter to quit game.\n");
+		std::cin >> input;
+		if (input == "Yes" || input == "yes" || input == "y") {
+			printf("\tsaving...");
+			return;
+		}
+		printf("\tDid not save game...");
+		return;
 	}
 }
 //TODO-- read breadth-first search algorithm to make a maximum view radius or something so enemies can't see through walls.
